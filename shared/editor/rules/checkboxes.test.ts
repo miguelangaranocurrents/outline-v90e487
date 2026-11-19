@@ -82,6 +82,26 @@ it("converts a nested list where a plain item precedes a checkbox item", () => {
   expect(checkboxList?.content?.[1].attrs?.checked).toBe(true);
 });
 
+it("does not convert a plain list that follows a checkbox list", () => {
+  const markdown = `- [ ] Task one
+- [x] Task two
+
+## After
+
+- Plain a
+- Plain b`;
+
+  const ast = parser.parse(markdown);
+  const checkboxLists = findNodes(ast?.toJSON(), "checkbox_list");
+  const bulletLists = findNodes(ast?.toJSON(), "bullet_list");
+
+  expect(checkboxLists).toHaveLength(1);
+  expect(checkboxLists[0].content).toHaveLength(2);
+  expect(bulletLists).toHaveLength(1);
+  expect(bulletLists[0].content).toHaveLength(2);
+  expect(bulletLists[0].content?.[0].type).toBe("list_item");
+});
+
 it("converts an ordered list containing a checkbox item", () => {
   const markdown = `1. Item one
 2. [ ] Item two`;

@@ -410,6 +410,9 @@ class UiStore {
       this.secondaryRightSidebar = panel;
     } else {
       this.rightSidebar = panel;
+      // Persist so the open/closed state survives a reload. Only the primary
+      // pane is persisted, the secondary pane is session-only.
+      this.persist();
     }
   };
 

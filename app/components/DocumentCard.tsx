@@ -274,9 +274,9 @@ const Reorderable = styled.div<{ $isDragging: boolean }>`
   height: 180px;
   transition: box-shadow 200ms ease;
 
-  // move above other cards when dragging
+  // move above other cards when dragging. Pointer events are left alone so that
+  // releasing a press that never moved still lands on the card and opens it.
   z-index: ${(props) => (props.$isDragging ? 1 : "inherit")};
-  pointer-events: ${(props) => (props.$isDragging ? "none" : "inherit")};
 
   &: ${hover} ${Actions} {
     opacity: 1;
